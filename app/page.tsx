@@ -1,34 +1,3 @@
-'use client';
-
-import { useState, useEffect } from 'react';
-import { Session } from '@supabase/supabase-js';
-import { supabase } from '../lib/supabaseClient';
-import Auth from '../components/Auth';
-import Dashboard from '../components/Dashboard';
-
-export default function Home() {
-  const [session, setSession] = useState<Session | null>(null);
-
-  useEffect(() => {
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-    });
-
-    const {
-      data: { subscription },
-    } = supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-    });
-
-    return () => subscription.unsubscribe();
-  }, []);
-
-  if (!session) {
-    return <Auth />;
-  } else {
-    return <Dashboard user={session.user} />;
-  }
-}
 import Image from "next/image";
 
 export default function Home() {
@@ -47,7 +16,7 @@ export default function Home() {
           <li className="mb-2 tracking-[-.01em]">
             Get started by editing{" "}
             <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
+              app/page.tsx
             </code>
             .
           </li>
